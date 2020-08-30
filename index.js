@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
+const env_loader = require('./env');
 
 const port = normalizePort(process.env.PORT || '5000');
 const app = express();
