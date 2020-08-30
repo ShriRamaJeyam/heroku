@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/ShriRamaJeyam/heroku#readme",
   "dependencies": {
-    "http": "0.0.1-security"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "morgan": "^1.10.0"
   }
 }
