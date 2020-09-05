@@ -12,8 +12,6 @@ router.use(async(req,res,next) => {
     try
     {
         const { auth } = req.body;
-        console.log(((new Date()).getTime()) - auth.millis)
-        console.log((CryptoJS.SHA256(env.pswd_mngr.admin_pass + auth.millis)).toString(CryptoJS.enc.Hex));
         if( 
             Math.abs(((new Date()).getTime()) - auth.millis) <= env.pswd_mngr.req_auth_timeout &&
             (CryptoJS.SHA256(env.pswd_mngr.admin_pass + auth.millis)).toString(CryptoJS.enc.Hex) === auth.hash
@@ -48,7 +46,7 @@ router.post('/auth',async(req,res) => {
 });
 
 router.post('/listUser',requestHandler({ utility : async(data) => {
-    return await Users.findAll({attributes:['username']});
+    return (await Users.findAll({attributes:['username']})).map(v => v.username);
 } }));
 
 router.post('/addUser',requestHandler({ utility : async(data) => {

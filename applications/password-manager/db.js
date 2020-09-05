@@ -11,12 +11,12 @@ class PasswordManager_Users extends Model {}
 
 PasswordManager_Users.init({
     username : {
-        primaryKey : true,
+        unique : true,
         type: DataTypes.STRING(15),
         validate : {
             is:{
-                args : /[a-zA-Z]*/g,
-                msg : "Username can contain only alphabets."
+                args : /[a-z]*/g,
+                msg : "Username can contain only lowercase alphabets."
             },
             isMinLength(value) {
                 if(value.length < 8)
