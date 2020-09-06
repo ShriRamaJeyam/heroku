@@ -3,7 +3,7 @@ const express = require('express');
 const env = require('../../env');
 const errorCodes = require('../../utilities/errorCodes');
 const requestHandler = require('./requestHandler')
-const { Users } = require('./db')
+const { Users, Tags } = require('./db')
 
 const router = express.Router();
 
@@ -52,6 +52,15 @@ router.post('/listUser',requestHandler({ utility : async(data) => {
 router.post('/addUser',requestHandler({ utility : async(data) => {
     const { username, hash } = data;
     return await Users.create({ username,hash });
+} }));
+
+router.post('/listTag',requestHandler({ utility : async(data) => {
+    return (await Tags.findAll({attributes:['tag']})).map(v => v.tag);
+} }));
+
+router.post('/addTag',requestHandler({ utility : async(data) => {
+    const { tag } = data;
+    return await Tags.create({ tag });
 } }));
 
 module.exports = router;
