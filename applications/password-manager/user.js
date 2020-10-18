@@ -105,7 +105,7 @@ router.post('/savePassword',requestHandler({ utility : async(data) => {
                 let insertedPassword = deepClone(await Passwords.create({ user : id, password, tags }));
                 passwordID = insertedPassword.id;
             }
-            return { status : 'ok' , id : passwordID };
+            return passwordID;
         } 
     })
 );
