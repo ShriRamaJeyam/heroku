@@ -31,8 +31,7 @@ router.use(async(req,res,next) => {
                 },
                 attributes : ['id','hash']
             });
-            console.log(user);
-            req.body.user = deepClone(user);
+            auth.id = deepClone(user).id;
         }
         else
         {
@@ -76,12 +75,45 @@ router.use(async(req,res,next) => {
 router.post('/auth',async(req,res) => {
     res.json({
         status:'ok',
-        id : req.body.user.id
+        id : req.body.auth.id
     });
 });
 
 router.post('/listTag',requestHandler({ utility : async(data) => {
-    return (await Tags.findAll({attributes:['tag']})).map(v => v.tag);
+    return (await Tags.findAll({attributes:['id','tag']}));
+} }));
+
+router.post('/savePassword',requestHandler({ utility : async(data) => {
+            const { auth : { id } , password, tags } = data;
+            let passwordID = null;
+            if ( typeof data.id === 'number' )
+            {
+                passwordID = data.id;
+                let passwordToEdit = await Passwords.findOne({
+                    where : {
+                        id : data.id,
+                        user : id 
+                    }
+                });
+                passwordToEdit.update({
+                    password,
+                    tags
+                });
+            }
+            else
+            {
+                let insertedPassword = deepClone(await Passwords.create({ user : id, password, tags }));
+                passwordID = insertedPassword.id;
+            }
+            return { status : 'ok' , id : passwordID };
+        } 
+    })
+);
+
+router.post('/listPassword',requestHandler({ utility : async(data) => {
+    const { auth:{id} } = data;
+    let result = await Passwords.findAll({ where : { user : id }, attributes : ['id','tags','password'] });
+    return result;
 } }));
 
 module.exports = router;

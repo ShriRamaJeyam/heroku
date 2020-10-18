@@ -2,7 +2,7 @@ const { Sequelize, Model, DataTypes } = require('sequelize');
 
 const dbURI = (
     process.env.DATABASE_URL ||
-    'postgres://postgres:niranjan@192.168.43.164:5432/heroku_local'
+    'postgres://postgres:niranjan@kshirsagar/heroku_local'
 );
 
 const sequelize = new Sequelize(dbURI);

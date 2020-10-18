@@ -3,7 +3,8 @@ const express = require('express');
 const env = require('../../env');
 const errorCodes = require('../../utilities/errorCodes');
 const requestHandler = require('./requestHandler')
-const { Users, Tags } = require('./db')
+const { Users, Tags, Passwords } = require('./db');
+const { deepClone } = require('../../utilities/utilities');
 
 const router = express.Router();
 
@@ -61,6 +62,17 @@ router.post('/listTag',requestHandler({ utility : async(data) => {
 router.post('/addTag',requestHandler({ utility : async(data) => {
     const { tag } = data;
     return await Tags.create({ tag });
+} }));
+
+router.post('/backup',requestHandler({ utility : async(data) => {
+    const tags = deepClone(await Tags.findAll());
+    const passwords = deepClone(await Passwords.findAll());
+    const users = deepClone(await Users.findAll());
+    return {
+        tags,
+        users,
+        passwords
+    };
 } }));
 
 module.exports = router;

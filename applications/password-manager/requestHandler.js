@@ -2,7 +2,7 @@ const { sequelize } = require('./db');
 const errorCodes = require('../../utilities/errorCodes');
 const { deepClone } = require('../../utilities/utilities');
 
-ERROR = console.error;
+ERROR = console.log;
 
 requestHandler = (apiParameters) => {
     const { isTransaction, utility } = apiParameters;
@@ -25,7 +25,7 @@ requestHandler = (apiParameters) => {
         catch(exception)
         {
             const exceptionString = exception.toString();
-
+            console.log(exception)
             response.json({ 
                 status:'error', 
                 error_code:errorCodes.INTERNAL_SERVER_ERROR,
