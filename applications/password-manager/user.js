@@ -57,7 +57,7 @@ router.use(async(req,res,next) => {
             res.json({
                 status: "error",
                 error_code : errorCodes.AUTHENTICATION_ERROR,
-                error_message : `The password is either wrong or check the time in your local system.${JSON.stringify(req.body)}`
+                error_message : `The password is either wrong or check the time in your local system.`
             });
         }
     }
